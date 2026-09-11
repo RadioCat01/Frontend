@@ -1,0 +1,55 @@
+<main class="login-page">
+  <section class="login-visual" aria-label="Enhanzer purchase management">
+    <div class="brand-mark"><span class="brand-slashes">///</span> enhanzer</div>
+    <div class="visual-copy">
+      <span class="eyebrow">PURCHASE OPERATIONS</span>
+      <h1>Move every purchase<br /><em>forward.</em></h1>
+      <p>A calm, connected workspace for the details that keep your business moving.</p>
+    </div>
+    <div class="visual-footer"><span>ENHANZER POS</span><span>EST. 2015</span></div>
+  </section>
+
+  <section class="login-panel">
+    <div class="login-card">
+      <div class="welcome-icon">↗</div>
+      <p class="eyebrow">WELCOME BACK</p>
+      <h2>Sign in to your workspace</h2>
+      <p class="intro">Enter your account details to continue to Purchase Bill.</p>
+
+      <form [formGroup]="loginForm" (ngSubmit)="submit()" novalidate>
+        <label for="email">Email address</label>
+        <div class="input-wrap" [class.invalid]="isInvalid('email')">
+          <span class="input-icon">&#64;</span>
+          <input id="email" type="email" formControlName="email" placeholder="you@company.com" autocomplete="email" />
+        </div>
+        @if (isInvalid('email')) {
+          <small class="field-error">Enter a valid email address.</small>
+        }
+
+        <div class="label-row">
+          <label for="password">Password</label>
+          <span class="required-note">Required</span>
+        </div>
+        <div class="input-wrap" [class.invalid]="isInvalid('password')">
+          <span class="input-icon">*</span>
+          <input id="password" [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="Enter your password" autocomplete="current-password" />
+          <button type="button" class="visibility-button" (click)="showPassword = !showPassword" [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'">
+            {{ showPassword ? 'Hide' : 'Show' }}
+          </button>
+        </div>
+        @if (isInvalid('password')) {
+          <small class="field-error">Password must be at least 4 characters.</small>
+        }
+
+        @if (errorMessage) {
+          <div class="form-error" role="alert">{{ errorMessage }}</div>
+        }
+
+        <button class="submit-button" type="submit" [disabled]="isSubmitting">
+          @if (isSubmitting) { <span class="spinner"></span> Signing in... } @else { Sign in <span>→</span> }
+        </button>
+      </form>
+      <p class="security-note"><span>✦</span> Your session is securely encrypted</p>
+    </div>
+  </section>
+</main>

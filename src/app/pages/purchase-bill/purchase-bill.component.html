@@ -1,0 +1,50 @@
+<main class="bill-page">
+  <header class="topbar">
+    <div class="brand"><span>///</span> enhanzer</div>
+    <div class="topbar-actions"><span class="status-dot"></span> Purchase workspace <button type="button" class="logout-button" (click)="logout()">Sign out <span>↗</span></button></div>
+  </header>
+
+  <section class="page-heading">
+    <div>
+      <p class="eyebrow">INVENTORY / PURCHASES</p>
+      <h1>Purchase Bill <span>·</span> <small>New entry</small></h1>
+    </div>
+    <div class="date-stamp">TODAY<br /><strong>{{ now | date:'dd MMM yyyy' }}</strong></div>
+  </section>
+
+  @if (isLoading) {
+    <div class="loading-state"><span class="spinner"></span> Loading your locations...</div>
+  } @else {
+    <section class="workspace-grid">
+      <div class="form-area">
+        <div class="section-heading"><div><span class="step-number">01</span><div><h2>Line item details</h2><p>Build your purchase line by line.</p></div></div><span class="required-label">* Required fields</span></div>
+        <form class="item-form" [formGroup]="itemForm" (ngSubmit)="addItem()" novalidate>
+          <div class="field field-item">
+            <label for="item">Item <span>*</span></label>
+            <input id="item" list="item-options" formControlName="item" placeholder="Search or select an item" />
+            <datalist id="item-options">@for (name of itemNames; track name) { <option [value]="name"></option> }</datalist>
+          </div>
+          <div class="field"><label for="batch">Batch / location <span>*</span></label><select id="batch" formControlName="batch"><option value="">Select location</option>@for (location of locations; track location.locationCode) { <option [value]="location.locationName">{{ location.locationName }}</option> }</select></div>
+          <div class="field"><label for="standardCost">Standard cost <span>*</span></label><div class="number-input"><span>Rs.</span><input id="standardCost" type="number" min="0" formControlName="standardCost" /></div></div>
+          <div class="field"><label for="standardPrice">Standard price <span>*</span></label><div class="number-input"><span>Rs.</span><input id="standardPrice" type="number" min="0" formControlName="standardPrice" /></div></div>
+          <div class="field"><label for="qty">Quantity <span>*</span></label><input id="qty" type="number" min="1" formControlName="qty" /></div>
+          <div class="field"><label for="discount">Discount</label><div class="number-input"><input id="discount" type="number" min="0" max="100" formControlName="discountPercent" /><span>%</span></div></div>
+          <div class="calculated-field"><span>Total cost</span><strong>Rs. {{ previewTotalCost | number:'1.2-2' }}</strong></div>
+          <div class="calculated-field"><span>Total selling</span><strong>Rs. {{ previewTotalSelling | number:'1.2-2' }}</strong></div>
+          <button class="add-button" type="submit" [disabled]="isAdding">@if (isAdding) { <span class="small-spinner"></span> Adding... } @else { <span>+</span> Add item }</button>
+        </form>
+        @if (errorMessage) { <div class="message error" role="alert">{{ errorMessage }}</div> }
+        @if (successMessage) { <div class="message success" role="status">{{ successMessage }}</div> }
+
+        <div class="table-heading"><div><h2>Added items</h2><p>{{ items.length }} {{ items.length === 1 ? 'line' : 'lines' }} in this bill</p></div><span class="table-count">{{ items.length | number:'2.0-0' }}</span></div>
+        <div class="table-shell">
+          @if (items.length) {
+            <div class="table-scroll"><table><thead><tr><th>ITEM</th><th>BATCH / LOCATION</th><th class="numeric">COST</th><th class="numeric">PRICE</th><th class="numeric">QTY</th><th class="numeric">DISCOUNT</th><th class="numeric">TOTAL</th><th></th></tr></thead><tbody>@for (item of items; track $index) { <tr><td><strong>{{ item.item }}</strong></td><td>{{ item.batch }}</td><td class="numeric">{{ item.standardCost | number:'1.2-2' }}</td><td class="numeric">{{ item.standardPrice | number:'1.2-2' }}</td><td class="numeric">{{ item.qty }}</td><td class="numeric">{{ item.discountPercent }}%</td><td class="numeric total-cell">{{ item.totalCost | number:'1.2-2' }}</td><td><button type="button" class="remove-button" (click)="removeItem($index)" aria-label="Remove item">×</button></td></tr> }</tbody></table></div>
+          } @else { <div class="empty-state"><div class="empty-icon">＋</div><strong>Your bill is empty</strong><p>Add your first line item above to see it here.</p></div> }
+        </div>
+      </div>
+
+      <aside class="summary-panel"><p class="eyebrow">BILL SUMMARY</p><h2>A quick overview.</h2><p class="summary-intro">Keep an eye on the shape of this purchase as you build it.</p><div class="summary-rule"></div><div class="summary-stat"><span>Line items</span><strong>{{ items.length | number:'2.0-0' }}</strong></div><div class="summary-stat"><span>Total quantity</span><strong>{{ totalQuantity | number:'2.0-0' }}</strong></div><div class="summary-rule"></div><div class="summary-total"><span>Estimated total cost</span><strong>Rs. {{ itemsTotal | number:'1.2-2' }}</strong></div><div class="summary-footnote"><span>●</span> Calculated from verified line items</div></aside>
+    </section>
+  }
+</main>
