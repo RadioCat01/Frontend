@@ -1,42 +1,38 @@
-# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+# .NET build output
+**/bin/
+**/obj/
+**/publish/
+**/wwwroot/*
+!**/wwwroot/.gitkeep
 
-# Compiled output
-/dist
-/tmp
-/out-tsc
-/bazel-out
-
-# Node
-/node_modules
-npm-debug.log
-yarn-error.log
-
-# IDEs and editors
-.idea/
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
-
-# Visual Studio Code
+# .NET user and IDE files
+**/*.csproj.user
+**/*.suo
+.vs/
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-.history/*
 
-# Miscellaneous
-/.angular/cache
-.sass-cache/
-/connect.lock
-/coverage
-/libpeerconnection.log
-testem.log
-/typings
+# Angular and Node output
+**/node_modules/
+**/dist/
+**/.angular/cache/
+**/coverage/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# System files
+# Local configuration and secrets
+**/appsettings.Local.json
+**/appsettings.Production.json
+**/*.local.json
+
+# OS files
 .DS_Store
 Thumbs.db
+
+# Local deployment archives
+*.zip
+*.tar.gz
