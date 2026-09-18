@@ -25,3 +25,30 @@ export interface PurchaseBillItem {
   totalCost: number;
   totalSelling: number;
 }
+
+export interface PurchaseOrder {
+  id: number;
+  createdDate: Date;
+  totalCost: number;
+  totalSelling: number;
+  totalItems: number;
+  items: PurchaseBillItem[];
+}
+
+export interface LatestPurchaseOrder {
+  id: number;
+  netAmount: number;
+  noOfItems: number;
+}
+
+export interface OldestPurchaseOrderItem {
+  purchaseOrderId: number;
+  itemName: string;
+  noOfQuantity: number;
+}
+
+export interface GroupedItem {
+  itemName: string;
+  totalQuantity: number;
+}
+

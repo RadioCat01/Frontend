@@ -1,0 +1,176 @@
+<main class="dashboard-page">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <span class="logo-icon">⬤</span>
+        <span class="logo-text">ezuite</span>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" title="Dashboard">📊</a>
+      <a href="#" class="nav-item" title="Orders">📦</a>
+      <a href="#" class="nav-item" title="Core">⚙️</a>
+      <a href="#" class="nav-item" title="Projects">📋</a>
+      <a href="#" class="nav-item" title="Assets">🏪</a>
+      <a href="#" class="nav-item" title="Modules">🧩</a>
+      <a href="#" class="nav-item" title="Reports">📈</a>
+      <a href="#" class="nav-item" title="Admin">👤</a>
+      <a href="#" class="nav-item" title="Settings">⚡</a>
+    </nav>
+    <div class="sidebar-footer">
+      <span class="version">v 0.9.2</span>
+      <span class="build">Build</span>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Header -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <span class="dashboard-label">📊 Dashboard</span>
+        <button class="dropdown-btn">v</button>
+      </div>
+      <div class="topbar-right">
+        <button class="icon-btn" title="Settings">⚙️</button>
+        <button class="icon-btn" title="Organizations">🏢</button>
+        <button class="icon-btn" title="My Organization">My Organization ▼</button>
+        <button class="icon-btn" title="Notifications">🔔</button>
+        <span class="notification-badge">1</span>
+        <button class="icon-btn" title="Help">❓</button>
+        <button class="icon-btn" title="User Menu">👤</button>
+      </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard-content">
+      <div class="dashboard-grid">
+
+        <!-- Left: Latest Orders Table -->
+        <div class="widget orders-widget">
+          <div class="widget-header">
+            <h3>Latest Purchase Orders</h3>
+            <div class="header-controls">
+              <button class="filter-btn">Today ▼</button>
+            </div>
+          </div>
+
+          @if (isLoadingLatest) {
+            <div class="loading-state"><span class="spinner"></span> Loading...</div>
+          } @else if (latestOrders.length) {
+            <div class="orders-info">
+              <p class="info-label">{{ latestOrders.length }} orders added</p>
+            </div>
+            <div class="table-container">
+              <table class="orders-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Amount</th>
+                    <th>Items</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (order of latestOrders; track order.id) {
+                    <tr>
+                      <td><span class="order-id">ORD-2024-{{ order.id }}</span></td>
+                      <td>{{ order.netAmount | number:'1.2-2' }}</td>
+                      <td><span class="item-count">{{ order.noOfItems }} items</span></td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          } @else {
+            <div class="empty-section">
+              <p>No purchase orders yet</p>
+            </div>
+          }
+        </div>
+
+        <!-- Middle: Items List -->
+        <div class="widget items-widget">
+          <div class="widget-header">
+            <h3>Item Details</h3>
+            <div class="header-controls">
+              <button class="filter-btn">Today ▼</button>
+            </div>
+          </div>
+
+          @if (isLoadingOldest) {
+            <div class="loading-state"><span class="spinner"></span> Loading...</div>
+          } @else if (oldestItems.length) {
+            <div class="items-container">
+              @for (item of oldestItems; track item.purchaseOrderId + item.itemName) {
+                <div class="item-card">
+                  <div class="item-header">
+                    <span class="item-icon">📦</span>
+                    <div class="item-details">
+                      <p class="item-name">{{ item.itemName }}</p>
+                      <p class="item-meta">PO #{{ item.purchaseOrderId }}</p>
+                    </div>
+                  </div>
+                  <div class="item-footer">
+                    <span class="item-amount">{{ item.noOfQuantity }} qty</span>
+                  </div>
+                </div>
+              }
+            </div>
+          } @else {
+            <div class="empty-section">
+              <p>No items added yet</p>
+            </div>
+          }
+        </div>
+
+        <!-- Right: Chart -->
+        <div class="widget chart-widget">
+          <div class="widget-header">
+            <h3>Items Summary</h3>
+            <div class="header-controls">
+              <button class="filter-btn">Today ▼</button>
+            </div>
+          </div>
+
+          @if (isLoadingGrouped) {
+            <div class="loading-state"><span class="spinner"></span> Loading...</div>
+          } @else if (donutChartData.length) {
+            <div class="chart-money">
+              <div class="chart-value">{{ getTotalQuantity() }}</div>
+              <div class="chart-label">Total Items</div>
+            </div>
+            <div class="chart-container">
+              <ngx-charts-pie-chart
+                [view]="chartView"
+                [results]="donutChartData"
+                [legend]="false"
+                [doughnut]="true"
+                [tooltipDisabled]="false"
+              ></ngx-charts-pie-chart>
+            </div>
+            <div class="legend-items">
+              @for (item of groupedItems; track item.itemName) {
+                <div class="legend-item">
+                  <span class="legend-label">{{ item.itemName }}</span>
+                  <span class="legend-value">{{ item.totalQuantity }}</span>
+                </div>
+              }
+            </div>
+          } @else {
+            <div class="empty-section">
+              <p>No data available</p>
+            </div>
+          }
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Action Button -->
+    <div class="action-area">
+      <button class="action-btn" (click)="navigateToPurchaseBill()">+ New Purchase Order</button>
+      <button class="logout-btn" (click)="logout()">Sign out</button>
+    </div>
+  </div>
+</main>

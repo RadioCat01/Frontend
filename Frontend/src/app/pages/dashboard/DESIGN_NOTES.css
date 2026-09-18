@@ -1,0 +1,150 @@
+/* 
+========================================
+DASHBOARD UI STRUCTURE & DESIGN SUMMARY
+========================================
+
+This document describes the new dashboard UI layout and styling.
+
+LAYOUT STRUCTURE:
+================
+
+┌─────────────────────────────────────────────────────────┐
+│                    TOPBAR / HEADER                       │
+│  Dashboard ▼    [Settings] [Org] [Help] [User] [🔔]    │
+└─────────────────────────────────────────────────────────┘
+┌──────────┬──────────────────────────────────────────────┐
+│          │                                               │
+│          │   ┌─────────────┐ ┌─────────────┐ ┌────────┐│
+│ SIDEBAR  │   │   Latest    │ │    Item     │ │ Items  ││
+│          │   │   Purchase  │ │   Details   │ │Summary ││
+│ [Icons]  │   │   Orders    │ │   (List)    │ │(Chart) ││
+│          │   │   (Table)   │ │             │ │        ││
+│ 📊 • •   │   │             │ │             │ │        ││
+│ 📦 • •   │   │ Order #     │ │ Item Card   │ │ Donut  ││
+│ ⚙️ • •   │   │ Amount      │ │ Item Card   │ │ Chart  ││
+│ 📋 • •   │   │ Items       │ │ Item Card   │ │ Legend ││
+│          │   │             │ │             │ │        ││
+│ etc...   │   │             │ │             │ │        ││
+│          │   └─────────────┘ └─────────────┘ └────────┘│
+│          │                                               │
+│ v0.9.2   │   ┌────────────────────────────────────────┐ │
+│          │   │  [+ New Purchase Order]  [Sign out]    │ │
+│          │   └────────────────────────────────────────┘ │
+└──────────┴──────────────────────────────────────────────┘
+
+
+COLOR PALETTE:
+==============
+
+Primary Colors:
+  🔵 Primary Blue:    #007bda
+  🔵 Dark Blue:       #003d7a
+  🔵 Light Blue BG:   #e8f1f8
+
+Neutral:
+  ⚪ White:           #ffffff
+  ⚪ Light Gray:      #fafafa, #f9f9f9
+  🖤 Border Color:    #e0e0e0
+  ⚫ Text Dark:       #333333
+  ⚫ Text Light:      #666666
+
+Status:
+  ✅ Success Green:   #10b981
+  ⚠️  Warning Orange:  #f59e0b
+  ❌ Danger Red:      #ef4444
+
+
+TYPOGRAPHY:
+===========
+
+Font Stack: System fonts (macOS/Windows)
+  -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto
+
+Weights:
+  Regular:   400
+  Medium:    500
+  Semibold:  600
+  Bold:      700
+
+Sizes:
+  Large Headers:    2rem (32px)
+  Section Headers:  1.1rem (17.6px)
+  Default:          0.95rem (15.2px)
+  Small:            0.85rem (13.6px)
+  Tiny:             0.75rem (12px)
+
+
+WIDGET SPECIFICATIONS:
+======================
+
+ORDERS WIDGET (Left):
+├─ Header
+│  ├─ Title: "Latest Purchase Orders"
+│  └─ Filter: "Today ▼" button
+├─ Info Section (Light Blue)
+│  └─ Small text: "{N} orders added"
+└─ Table
+   ├─ Columns: ID | Amount | Items
+   └─ Rows: Order data with hover effect
+
+ITEMS WIDGET (Middle):
+├─ Header
+│  ├─ Title: "Item Details"
+│  └─ Filter: "Today ▼" button
+└─ Item Cards (Scrollable)
+   ├─ Icon: 📦
+   ├─ Item Name (bold)
+   ├─ PO #ID (light text)
+   └─ Quantity Badge
+
+CHART WIDGET (Right):
+├─ Header
+│  ├─ Title: "Items Summary"
+│  └─ Filter: "Today ▼" button
+├─ Money Display
+│  ├─ Large Number: Total Quantity
+│  └─ Label: "Total Items"
+├─ Chart
+│  └─ Donut/Pie Chart (ngx-charts)
+└─ Legend
+   └─ Item names with quantities
+
+
+ANIMATIONS & INTERACTIONS:
+==========================
+
+Hover Effects:
+  Widgets: box-shadow expand (0.3s ease)
+  Buttons: background color change (0.2s)
+  Links: color change (0.2s)
+  Cards: background + border (0.2s)
+
+Loading:
+  Spinner: 360° rotation (0.6s linear infinite)
+  Text: "Loading..."
+
+Transitions:
+  Default: 0.2s ease
+  Widgets: 0.3s ease
+  Buttons: Includes translateY(-2px) on hover
+
+
+RESPONSIVE BREAKPOINTS:
+=======================
+
+Desktop (1400px+):
+  ✅ Grid: 3 columns (Orders | Items | Chart)
+  ✅ Sidebar: Always visible
+  ✅ Full feature set
+
+Tablet (900px - 1400px):
+  ✅ Grid: 2 columns
+  ✅ Sidebar: Always visible
+  ✅ Compact layout
+
+Mobile (<900px):
+  ✅ Grid: 1 column (stacked)
+  ✅ Sidebar: Collapsible
+  ✅ Touch-friendly buttons
+
+*/

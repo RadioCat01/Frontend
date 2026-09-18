@@ -22,6 +22,7 @@ export class PurchaseBillComponent implements OnInit {
   items: PurchaseBillItem[] = [];
   isLoading = true;
   isAdding = false;
+  isSaving = false;
   errorMessage = '';
   successMessage = '';
 
@@ -92,6 +93,28 @@ export class PurchaseBillComponent implements OnInit {
 
   removeItem(index: number): void {
     this.items = this.items.filter((_, itemIndex) => itemIndex !== index);
+  }
+
+  savePurchaseOrder(): void {
+    this.errorMessage = '';
+    this.successMessage = '';
+
+    if (this.items.length === 0) {
+      this.errorMessage = 'Please add at least one item before saving.';
+      return;
+    }
+
+    this.isSaving = true;
+    this.purchaseBillService.savePurchaseOrder(this.items).pipe(
+      finalize(() => this.isSaving = false)
+    ).subscribe({
+      next: (response) => {
+        this.successMessage = `Purchase order #${response.id} saved successfully!`;
+        this.items = [];
+        this.itemForm.reset({ item: '', batch: '', standardCost: 0, standardPrice: 0, qty: 1, discountPercent: 0 });
+      },
+      error: (error) => this.errorMessage = error.error?.message ?? 'Failed to save purchase order.'
+    });
   }
 
   logout(): void {

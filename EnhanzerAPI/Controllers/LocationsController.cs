@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using EnhanzerAPI.Data;
 using EnhanzerAPI.DTOs;
+using EnhanzerAPI.Models;
 
 namespace EnhanzerAPI.Controllers
 {

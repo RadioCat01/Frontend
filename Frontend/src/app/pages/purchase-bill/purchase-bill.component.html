@@ -44,7 +44,7 @@
         </div>
       </div>
 
-      <aside class="summary-panel"><p class="eyebrow">BILL SUMMARY</p><h2>A quick overview.</h2><p class="summary-intro">Keep an eye on the shape of this purchase as you build it.</p><div class="summary-rule"></div><div class="summary-stat"><span>Line items</span><strong>{{ items.length | number:'2.0-0' }}</strong></div><div class="summary-stat"><span>Total quantity</span><strong>{{ totalQuantity | number:'2.0-0' }}</strong></div><div class="summary-rule"></div><div class="summary-total"><span>Estimated total cost</span><strong>Rs. {{ itemsTotal | number:'1.2-2' }}</strong></div><div class="summary-footnote"><span>●</span> Calculated from verified line items</div></aside>
+      <aside class="summary-panel"><p class="eyebrow">BILL SUMMARY</p><h2>A quick overview.</h2><p class="summary-intro">Keep an eye on the shape of this purchase as you build it.</p><div class="summary-rule"></div><div class="summary-stat"><span>Line items</span><strong>{{ items.length | number:'2.0-0' }}</strong></div><div class="summary-stat"><span>Total quantity</span><strong>{{ totalQuantity | number:'2.0-0' }}</strong></div><div class="summary-rule"></div><div class="summary-total"><span>Estimated total cost</span><strong>Rs. {{ itemsTotal | number:'1.2-2' }}</strong></div><div class="summary-footnote"><span>●</span> Calculated from verified line items</div><div class="summary-rule"></div><button class="save-button" type="button" [disabled]="isSaving || items.length === 0" (click)="savePurchaseOrder()">@if (isSaving) { <span class="small-spinner"></span> Saving... } @else { <span>💾</span> Save Order }</button></aside>
     </section>
   }
 </main>
